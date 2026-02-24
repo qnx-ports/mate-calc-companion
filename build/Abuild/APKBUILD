@@ -1,0 +1,51 @@
+# Alpine-Contributor: Francesco Colista <fcolista@alpinelinux.org>
+# Alpine-Maintainer: Francesco Colista <fcolista@alpinelinux.org>
+# Maintainer: Elliott Mazzuca <emazzuca@qnx.com>
+pkgname=mate-calc
+pkgver=1.28.0
+pkgrel=0
+pkgdesc="Calculator for MATE"
+url="https://github.com/mate-desktop/mate-calc"
+arch="all"
+license="GPL-2.0-or-later"
+depends="glib gmp gtk3 libxml2 mpfr mpc1"
+makedepends="
+  libtool intltool itstool gettext-dev
+  gtk3-dev glib-dev libxml2-dev
+  mpc1-dev mpfr-dev gmp-dev
+"
+subpackages="$pkgname-lang $pkgname-doc"
+source="https://pub.mate-desktop.org/releases/${pkgver%.*}/mate-calc-$pkgver.tar.xz
+        fix-radix-qnx.patch
+        fix-angle-parsing-qnx.patch
+        fix-test-mp-equation-qnx.patch"
+
+build() {
+  cd "$builddir"
+
+  ./configure \
+    --build="$CBUILD" \
+    --host="$CHOST" \
+    --prefix=/usr \
+    --sysconfdir=/etc \
+    --disable-dependency-tracking
+
+  make
+}
+
+check() {
+  cd "$builddir"
+  make check
+}
+
+package() {
+  cd "$builddir"
+  make DESTDIR="$pkgdir" install
+}
+
+sha512sums="
+c4dfa7dcb8c6bb94ca0086e626833f144fd34c9362b556ab0402a39481096ce2047a3cfba1f69792af7673d94c01875d9b76f8178f38cc15c09cc98e4838bc55  mate-calc-1.28.0.tar.xz
+02faa32c8ea4b37d5e79862f2bd3573144e1c7f780a782cb3fa1ffe19b3760a51f7f9fb246893ae1eab76313796ba5f5fdf6b6961a694ca50c1a1518281689f0  fix-radix-qnx.patch
+8c69ea2984cf294d3e938c175a363a3047e6396f6342b2816145957e27ff80d8301c3823ffbe5183761395ad4418f2147402d9b03996dfb68ab4e78c1cfeeeed  fix-angle-parsing-qnx.patch
+b4fe2220f294e10a27e698f4db45e5a3959757afa53b9f87c8432fcabc00637f322a6f55bc0812abb7e437e123d39304901f54d01a5b477a83f68c5c10915657  fix-test-mp-equation-qnx.patch
+"
