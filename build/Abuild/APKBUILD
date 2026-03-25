@@ -3,7 +3,7 @@
 # Maintainer: Elliott Mazzuca <emazzuca@qnx.com>
 pkgname=mate-calc
 pkgver=1.28.0
-pkgrel=${pkgrel:-0}
+pkgrel=0
 pkgdesc="Calculator for MATE"
 url="https://github.com/mate-desktop/mate-calc"
 arch="all"
@@ -43,7 +43,6 @@ package() {
   make DESTDIR="$pkgdir" install
 }
 
-options="$options ${DISABLE_CHECK:+!check}"
 sha512sums="
 c4dfa7dcb8c6bb94ca0086e626833f144fd34c9362b556ab0402a39481096ce2047a3cfba1f69792af7673d94c01875d9b76f8178f38cc15c09cc98e4838bc55  mate-calc-1.28.0.tar.xz
 02faa32c8ea4b37d5e79862f2bd3573144e1c7f780a782cb3fa1ffe19b3760a51f7f9fb246893ae1eab76313796ba5f5fdf6b6961a694ca50c1a1518281689f0  fix-radix-qnx.patch
